@@ -88,6 +88,7 @@ Feature: LDAP
       | ldapPort       | 2456     |
     And Logging in using web as "alice"
     Then the HTTP status code should be "200"
+    And reset LDAP host configuration
 
   Scenario: Test backup server offline
     Given modify LDAP configuration
@@ -96,12 +97,15 @@ Feature: LDAP
       | ldapHost       | foo.bar  |
       | ldapPort       | 2456     |
     Then Expect ServerException on failed web login as "alice"
+    # Beware: having no active LDAP server will render the config endpoint unavailable
+    And reset LDAP host configuration
 
   Scenario: Test LDAP server offline, no backup server
     Given modify LDAP configuration
       | ldapHost       | foo.bar  |
       | ldapPort       | 2456     |
     Then Expect ServerException on failed web login as "alice"
+    And reset LDAP host configuration
 
   Scenario: Test LDAP group membership with intermediate groups not matching filter
     Given modify LDAP configuration

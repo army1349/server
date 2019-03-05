@@ -27,6 +27,7 @@ use PHPUnit\Framework\Assert;
 
 class LDAPContext implements Context {
 	use BasicStructure;
+	use CommandLine;
 
 	protected $configID;
 
@@ -195,5 +196,15 @@ class LDAPContext implements Context {
 
 		$backend = (string)simplexml_load_string($this->response->getBody())->data[0]->backend;
 		Assert::assertEquals('LDAP', $backend);
+	}
+
+	/**
+	 * @Given /^reset LDAP host configuration$/
+	 */
+	public function resetLDAPHostConfiguration() {
+		$this->invokingTheCommand('ldap:set-config s01 ldapHost openldap');
+		$this->invokingTheCommand('ldap:set-config s01 ldapPort 389');
+		$this->invokingTheCommand('ldap:set-config s01 ldapBackupPort \'\'');
+		$this->invokingTheCommand('ldap:set-config s01 ldapBackupPort \'\'');
 	}
 }
