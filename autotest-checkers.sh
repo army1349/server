@@ -9,7 +9,7 @@ RESULT=$(($RESULT+$?))
 php ./build/htaccess-checker.php
 RESULT=$(($RESULT+$?))
 
-
+mkdir data/
 for app in $(find "apps/" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;); do
     echo "Testing $app"
     if
@@ -34,6 +34,7 @@ for app in $(find "apps/" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;);
     fi
     RESULT=$(($RESULT+$?))
 done;
+rm -rf data/
 
 php ./build/files-checker.php
 RESULT=$(($RESULT+$?))
